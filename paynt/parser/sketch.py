@@ -76,9 +76,9 @@ class Sketch:
                 decpomdp_manager.reward_minimizing,
                 decpomdp_manager.discount_sink_label)
             specification = paynt.quotient.property.Specification([],optimality)
-             
+
         assert specification is not None
-        MarkovChain.initialize(specification)
+        MarkovChain.initialize(specification, decpomdp_manager.discount_factor)
         
         make_rewards_action_based(explicit_quotient)
         logger.debug("constructed explicit quotient having {} states and {} actions".format(

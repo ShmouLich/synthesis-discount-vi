@@ -250,10 +250,11 @@ class Specification:
     def contains_maximizing_reward_properties(self):
         return any([c.reward and not c.minimizing for c in self.all_properties()])
 
-
+#formula_str = 'R[exp]{"reward"}max=? [LRA]' / R[exp]{"reward"}max=? [F "discount_sink"]
+#formula_str = 'R{"' + reward_name + '"}' + '{}=? [F "{}"]'.format(direction, target_label)
 def construct_reward_property(reward_name, minimizing, target_label):
     direction = "min" if minimizing else "max"
-    formula_str = 'R{"' + reward_name + '"}' + '{}=? [F "{}"]'.format(direction, target_label)
+    formula_str = 'R[exp]{"reward"}max=? [F "discount_sink"]'
     formula = stormpy.parse_properties_without_context(formula_str)[0]
     optimality = OptimalityProperty(formula, 0)
     return optimality

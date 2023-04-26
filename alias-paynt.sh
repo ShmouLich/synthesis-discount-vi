@@ -4,7 +4,7 @@
 # compilation parameters
 
 # multi-core compilation
-export COMPILE_JOBS=$(nproc)
+export COMPILE_JOBS=4
 # single-core compilation:
 # export COMPILE_JOBS=1
 

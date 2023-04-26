@@ -14,6 +14,7 @@ class SynthesizerAR(Synthesizer):
     def verify_family(self, family):
         self.quotient.build(family)
         self.stat.iteration_mdp(family.mdp.states)
+        # check specification se odkazuje do models.py
         res = family.mdp.check_specification(self.quotient.specification, property_indices = family.property_indices, short_evaluation = True)
         family.analysis_result = res
 
@@ -45,11 +46,12 @@ class SynthesizerAR(Synthesizer):
         families = [family]
 
         while families:
-
+		
             family = families.pop(-1)
             family.parent_info = None
 
-            self.verify_family(family)
+            self.verify_family(family) # dalsi krok
+            
             can_improve,improving_assignment = self.analyze_family(family)
             if improving_assignment is not None:
                 satisfying_assignment = improving_assignment
@@ -61,6 +63,7 @@ class SynthesizerAR(Synthesizer):
             subfamilies = self.quotient.split(family, Synthesizer.incomplete_search)
             families = families + subfamilies
 
+        print(satisfying_assignment)
         return satisfying_assignment
 
 

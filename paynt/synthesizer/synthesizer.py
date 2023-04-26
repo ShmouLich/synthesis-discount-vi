@@ -26,9 +26,8 @@ class Synthesizer:
 
         if family is None:
             family = self.quotient.design_space
+        assignment = self.synthesize_assignment(family) # dalsi magie
         
-        assignment = self.synthesize_assignment(family)
-
         self.stat.finished(assignment)
         return assignment
 
@@ -42,8 +41,7 @@ class Synthesizer:
     def run(self):
         # self.quotient.specification.optimality.update_optimum(0.9)
         self.quotient.design_space.property_indices = self.quotient.specification.all_constraint_indices()
-        assignment = self.synthesize(self.quotient.design_space)
-
+        assignment = self.synthesize(self.quotient.design_space) # v tomto kroku se deje magie
         print("")
         if assignment is not None:
             logger.info("Printing synthesized assignment below:")

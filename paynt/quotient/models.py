@@ -13,7 +13,7 @@ class MarkovChain:
     environment = None
 
     @classmethod
-    def initialize(cls, specification):
+    def initialize(cls, specification, discount = 1):
         # builder options
         formulae = specification.stormpy_formulae()
         cls.builder_options = stormpy.BuilderOptions(formulae)
@@ -39,6 +39,7 @@ class MarkovChain:
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.interval_iteration
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.optimistic_value_iteration
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.topological
+        se.minmax_solver_environment.discount = discount
 
     
     @classmethod
