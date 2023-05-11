@@ -406,8 +406,6 @@ class POMDPQuotientContainer(QuotientContainer):
         self.design_space = DesignSpace(all_holes)
 
     
-
-    
     def estimate_scheduler_difference(self, mdp, inconsistent_assignments, choice_values, expected_visits):
 
         if POMDPQuotientContainer.posterior_aware:

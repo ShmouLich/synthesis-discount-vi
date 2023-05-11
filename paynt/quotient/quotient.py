@@ -119,6 +119,7 @@ class QuotientContainer:
             for hole_index,option in choice_options.items():
                 selection[hole_index].add(option)
         selection = [list(options) for options in selection]
+        print(selection)
 
         return selection    
 
@@ -290,6 +291,7 @@ class QuotientContainer:
         :return whether the scheduler is consistent
         '''
         # selection = self.scheduler_selection(mdp, result.scheduler)
+        print("kontrolujeme konzistenci")
         if mdp.is_dtmc:
             selection = [[mdp.design_space[hole_index].options[0]] for hole_index in mdp.design_space.hole_indices]
             return selection, None, None, None, True
@@ -298,6 +300,7 @@ class QuotientContainer:
         consistent = True
         for hole_index in mdp.design_space.hole_indices:
             options = selection[hole_index]
+            print(options)
             if len(options) > 1:
                 consistent = False
             if options == []:
@@ -417,6 +420,7 @@ class QuotientContainer:
         dtmc = self.build_chain(assignment)
         res = dtmc.check_specification(self.specification)
         # opt_result = dtmc.model_check_property(opt_prop)
+        print("ahooooj", res.optimality_result.value, res.optimality_result)
         if res.constraints_result.all_sat and self.specification.optimality.improves_optimum(res.optimality_result.value):
             return assignment, res.optimality_result.value
         else:

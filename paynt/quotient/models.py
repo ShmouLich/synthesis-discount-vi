@@ -93,8 +93,13 @@ class MarkovChain:
         return self.model.initial_states[0]
 
     def model_check_formula(self, formula):
-        if not self.is_dtmc:
-            return stormpy.synthesis.verify_mdp(self.environment,self.model,formula,True)
+        # 1) nastaveni discountu zde
+        # 2) nastaveni discountu v decpomdp.cpp
+        # 3) zmena rozhodovani v iterative minmax linear equation solver.cpp
+        # self.environment.solver_environment.minmax_solver_environment.discount = 1.0
+        # if not self.is_dtmc:
+        result = stormpy.synthesis.verify_mdp(self.environment,self.model,formula,True)
+        return result
         return stormpy.model_checking(
             self.model, formula, only_initial_states=False,
             extract_scheduler=(not self.is_dtmc),
@@ -223,6 +228,7 @@ class MDP(MarkovChain):
     def check_optimality(self, prop):
         # check primary direction
         primary = self.model_check_property(prop, alt = False)
+        print("jsem v check optimality a toto je primary:", primary)
 
         if not primary.improves_optimum:
             # OPT <= LB
@@ -231,6 +237,7 @@ class MDP(MarkovChain):
         # LB < OPT
         # check if LB is tight
         selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result)
+        # spravne primary nejsou consistent...
         if consistent:
             # LB is tight and LB < OPT
             scheduler_assignment = self.design_space.copy()
@@ -263,4 +270,5 @@ class MDP(MarkovChain):
         optimality_result = None
         if specification.has_optimality and not (short_evaluation and constraints_result.feasibility == False):
             optimality_result = self.check_optimality(specification.optimality)
+        #print("ahooooj optimality:", optimality_result, "constraint:", constraints_result)
         return SpecificationResult(constraints_result, optimality_result)

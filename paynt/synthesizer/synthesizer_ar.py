@@ -25,7 +25,10 @@ class SynthesizerAR(Synthesizer):
         :return (2) new satisfying assignment (or None)
         """
         improving_assignment,improving_value,can_improve = family.analysis_result.improving(family)
+        
         if improving_value is not None:
+            #print("ahoj delam update")
+            #print(improving_value)
             self.quotient.specification.optimality.update_optimum(improving_value)
         return can_improve, improving_assignment
 
@@ -52,7 +55,7 @@ class SynthesizerAR(Synthesizer):
 
             self.verify_family(family) # dalsi krok
             
-            can_improve,improving_assignment = self.analyze_family(family)
+            can_improve,improving_assignment = self.analyze_family(family) #faulty update
             if improving_assignment is not None:
                 satisfying_assignment = improving_assignment
             if can_improve == False:

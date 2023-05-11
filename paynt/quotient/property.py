@@ -330,11 +330,14 @@ class SpecificationResult:
         ''' Interpret MDP specification result. '''
 
         cr = self.constraints_result
-        opt = self.optimality_result
+        opt = self.optimality_result # opt.primary
 
         if cr.feasibility == True:
             # either no constraints or constraints were satisfied
             if opt is not None:
+                #print("improving:", opt.improving_value, "- primary:", opt.primary)
+                #if (opt.improving_value is not None):
+                    #opt.improving_value = opt.primary
                 return opt.improving_assignment, opt.improving_value, opt.can_improve
             else:
                 improving_assignment = family.pick_any()
